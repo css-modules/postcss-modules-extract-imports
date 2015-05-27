@@ -1,6 +1,6 @@
 import assert from "assert"
 import postcss from "postcss"
-import processor from "./index.src.js"
+import processor from "../"
 
 let pipeline = postcss([processor]),
   check = (desc, input, expected, randomStrs) => {
