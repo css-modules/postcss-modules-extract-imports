@@ -21,10 +21,36 @@ into:
 }
 ```
 
-## Development
+## Specification
+
+- Only a certain whitelist of properties are inspected. Currently, that whitelist is `['extends']` alone.
+- An extend-import has the following format:
+```
+extends: className [... className] from "path/to/file.css";
+```
+
+## Building
 
 ```
 npm install
-npm run watch
+npm build
 npm test
 ```
+
+## Development
+
+- `npm watch` will watch `index.src.js` for changes and rebuild
+- `npm autotest` will watch `index.src.js` and `test.js` for changes and retest
+
+## License
+
+ISC
+
+## With thanks
+
+- Mark Dalgleish
+- Tobias Koppers
+- Guy Bedford
+
+---
+Glen Maddern, 2015.
