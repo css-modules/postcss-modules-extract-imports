@@ -14,7 +14,7 @@ var _postcss2 = _interopRequireDefault(_postcss);
 
 var declWhitelist = ['extends'],
     declFilter = new RegExp('^(' + declWhitelist.join('|') + ')$'),
-    matchImports = /^([\w ]+) from "([^"]+)"$/;
+    matchImports = /^([\w ]+) from ("([^"]+)"|'([^']+)')$/;
 
 var processor = function processor(css, result) {
   var imports = {};
@@ -22,15 +22,17 @@ var processor = function processor(css, result) {
     var matches = decl.value.match(matchImports);
     if (matches) {
       (function () {
-        var _matches = _slicedToArray(matches, 3);
+        var _matches = _slicedToArray(matches, 5);
 
         var _ = _matches[0];
         var symbols = _matches[1];
-        var path = _matches[2];
-
+        var _ = _matches[2];
+        var doubleQuotePath = _matches[3];
+        var singleQuotePath = _matches[4];
+        var path = doubleQuotePath || singleQuotePath;
         imports[path] = imports[path] || {};
         var tmpSymbols = symbols.split(' ').map(function (s) {
-          return imports[path][s] = '__tmp-' + processor.getRandomStr();
+          return imports[path][s] = '__tmp_' + s + '_' + processor.getRandomStr();
         });
         decl.value = tmpSymbols.join(' ');
       })();

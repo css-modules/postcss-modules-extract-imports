@@ -2,17 +2,18 @@ import postcss from 'postcss'
 
 const declWhitelist = ['extends'],
   declFilter = new RegExp(`^(${declWhitelist.join('|')})$`),
-  matchImports = /^([\w ]+) from "([^"]+)"$/
+  matchImports = /^([\w ]+) from ("([^"]+)"|'([^']+)')$/
 
 const processor = (css, result) => {
   let imports = {}
   css.eachDecl(declFilter, (decl) => {
     let matches = decl.value.match(matchImports)
     if (matches) {
-      let [_, symbols, path] = matches
+      let [_, symbols, _, doubleQuotePath, singleQuotePath] = matches,
+        path = doubleQuotePath || singleQuotePath
       imports[path] = imports[path] || {}
       let tmpSymbols = symbols.split(' ')
-        .map(s => imports[path][s] = `__tmp-${processor.getRandomStr()}`)
+        .map(s => imports[path][s] = `__tmp_${s}_${processor.getRandomStr()}`)
       decl.value = tmpSymbols.join(' ')
     }
   })
