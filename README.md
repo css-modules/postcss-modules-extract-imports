@@ -5,7 +5,7 @@ Transforms:
 ```css
 :local(.continueButton) {
   extends: button from "library/button.css";
-  background: red;
+  color: green;
 }
 ```
 
@@ -17,7 +17,7 @@ into:
 }
 :local(.continueButton) {
   extends: __tmp_487387465fczSDGHSABb;
-  background: red;
+  color: green;
 }
 ```
 
