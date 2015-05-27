@@ -1,0 +1,9 @@
+
+:local(.exportName) {
+  extends: importName secondImport from 'path/library.css';
+  other: rule;
+}
+:local(.otherExport) {
+  extends: thirdImport from 'path/library.css';
+  extends: otherLibImport from 'path/other-lib.css';
+}

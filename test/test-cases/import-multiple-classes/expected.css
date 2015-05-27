@@ -1,0 +1,5 @@
+
+:import("path/library.css") {
+  importName: __tmp_importName_rand0;
+  secondImport: __tmp_secondImport_rand1; }
+:local(.exportName) { extends: __tmp_importName_rand0 __tmp_secondImport_rand1; other: rule; }

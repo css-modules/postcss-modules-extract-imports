@@ -1,0 +1,4 @@
+:local(.exportName) {
+  extends: importName from "path/library.css";
+  other: rule;
+}
