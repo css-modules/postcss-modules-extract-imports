@@ -78,6 +78,9 @@ describe("processor", () => {
     ["rand0ml0l0l", "rand0ml1l1l", "rand0ml2l2l", "rand0ml3l3l3"]
   )
 
-  it("should ignore imports not inside a :local")
-  it("should ignore imports not inside our rule whitelist")
+  check(
+    "should ignore imports not inside our rule whitelist",
+    `:local(.exportName) { imports: importName from "path/library.css"; something-else: otherLibImport from "path/other-lib.css"; }`,
+    `:local(.exportName) { imports: importName from "path/library.css"; something-else: otherLibImport from "path/other-lib.css"; }`
+  )
 })
