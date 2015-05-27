@@ -23,12 +23,13 @@ const processor = (css, result) => {
   // If we've found any imports, insert :import rules
   Object.keys(imports).forEach(path => {
     let pathImports = imports[path]
-    console.log(pathImports)
     css.prepend(postcss.rule({
       selector: `:import("${path}")`,
+      before: "\n",
       nodes: Object.keys(pathImports).map(importedSymbol => postcss.decl({
         prop: importedSymbol,
-        value: pathImports[importedSymbol]
+        value: pathImports[importedSymbol],
+        before: "\n  "
       }))
   }))
   })

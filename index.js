@@ -44,13 +44,14 @@ var processor = function processor(css, result) {
   // If we've found any imports, insert :import rules
   Object.keys(imports).forEach(function (path) {
     var pathImports = imports[path];
-    console.log(pathImports);
     css.prepend(_postcss2['default'].rule({
       selector: ':import("' + path + '")',
+      before: '\n',
       nodes: Object.keys(pathImports).map(function (importedSymbol) {
         return _postcss2['default'].decl({
           prop: importedSymbol,
-          value: pathImports[importedSymbol]
+          value: pathImports[importedSymbol],
+          before: '\n  '
         });
       })
     }));
