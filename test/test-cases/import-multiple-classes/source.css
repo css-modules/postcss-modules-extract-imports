@@ -1,0 +1,1 @@
+:local(.exportName) { extends: importName secondImport from 'path/library.css'; other: rule; }

@@ -1,0 +1,1 @@
+:local(.exportName) { imports: importName from "path/library.css"; something-else: otherLibImport from "path/other-lib.css"; }
