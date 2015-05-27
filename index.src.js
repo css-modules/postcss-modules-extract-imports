@@ -6,6 +6,8 @@ const declWhitelist = ['extends'],
 
 const processor = (css, result) => {
   let imports = {}
+
+  // Find any declaration that supports imports
   css.eachDecl(declFilter, (decl) => {
     let matches = decl.value.match(matchImports)
     if (matches) {
@@ -17,15 +19,18 @@ const processor = (css, result) => {
       decl.value = tmpSymbols.join(' ')
     }
   })
+
+  // If we've found any imports, insert :import rules
   Object.keys(imports).forEach(path => {
     let pathImports = imports[path]
     console.log(pathImports)
     css.prepend(postcss.rule({
       selector: `:import("${path}")`,
-      nodes: Object.keys(pathImports).map(importedSymbol => {
-        return postcss.decl({prop: importedSymbol, value: pathImports[importedSymbol]})
-      })
-    }))
+      nodes: Object.keys(pathImports).map(importedSymbol => postcss.decl({
+        prop: importedSymbol,
+        value: pathImports[importedSymbol]
+      }))
+  }))
   })
 }
 

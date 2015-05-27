@@ -18,6 +18,8 @@ var declWhitelist = ['extends'],
 
 var processor = function processor(css, result) {
   var imports = {};
+
+  // Find any declaration that supports imports
   css.eachDecl(declFilter, function (decl) {
     var matches = decl.value.match(matchImports);
     if (matches) {
@@ -38,13 +40,18 @@ var processor = function processor(css, result) {
       })();
     }
   });
+
+  // If we've found any imports, insert :import rules
   Object.keys(imports).forEach(function (path) {
     var pathImports = imports[path];
     console.log(pathImports);
     css.prepend(_postcss2['default'].rule({
       selector: ':import("' + path + '")',
       nodes: Object.keys(pathImports).map(function (importedSymbol) {
-        return _postcss2['default'].decl({ prop: importedSymbol, value: pathImports[importedSymbol] });
+        return _postcss2['default'].decl({
+          prop: importedSymbol,
+          value: pathImports[importedSymbol]
+        });
       })
     }));
   });
