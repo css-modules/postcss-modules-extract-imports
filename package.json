@@ -6,7 +6,8 @@
   "scripts": {
     "watch": "chokidar index.src.js -c 'npm run build'",
     "build": "babel -o index.js index.src.js",
-    "test": "mocha --compilers js:babel/register"
+    "test": "mocha --compilers js:babel/register",
+    "autotest": "chokidar index.src.js test.js -c 'npm test'"
   },
   "repository": {
     "type": "git",
