@@ -26,11 +26,11 @@ const processor = (css) => {
   });
 
   // If we've found any imports, insert :import rules
-  Object.keys(imports).forEach(path => {
+  Object.keys(imports).reverse().forEach(path => {
     let pathImports = imports[path];
     css.prepend(postcss.rule({
       selector: `:import("${path}")`,
-      before: "\n",
+      after: "\n",
       nodes: Object.keys(pathImports).map(importedSymbol => postcss.decl({
         prop: importedSymbol,
         value: pathImports[importedSymbol],

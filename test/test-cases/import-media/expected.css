@@ -1,0 +1,17 @@
+:import("path/library.css") {
+  importName: __tmp_importName_rand0;
+  importName2: __tmp_importName2_rand1;
+}
+
+@media screen {
+  :local(.exportName) {
+    extends: __tmp_importName_rand0;
+    extends: __tmp_importName2_rand1;
+    other: rule2;
+  }
+}
+
+:local(.exportName) {
+  extends: __tmp_importName_rand0;
+  other: rule;
+}
