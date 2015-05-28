@@ -1,10 +1,10 @@
 :import("path/library.css") {
-  importName: __tmp_importName_rand0;
-  importName2: __tmp_importName2_rand1;
+  importName: __imported_importName_0;
+  importName2: __imported_importName2_1;
 }
 :local(.exportName) {
-  extends: __tmp_importName_rand0;
-  extends: __tmp_importName2_rand1;
-  extends: __tmp_importName_rand0 __tmp_importName2_rand1;
+  extends: __imported_importName_0;
+  extends: __imported_importName2_1;
+  extends: __imported_importName_0 __imported_importName2_1;
   other: rule;
 }

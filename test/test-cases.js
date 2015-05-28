@@ -19,8 +19,6 @@ describe("test-cases", function() {
   fs.readdirSync(testDir).forEach(function(testCase) {
     if(fs.existsSync(path.join(testDir, testCase, "source.css"))) {
       it("should " + testCase.replace(/-/g, " "), function() {
-        var i = 0;
-        processor.getRandomStr = function() { return "rand" + (i++); };
         var input = normalize(fs.readFileSync(path.join(testDir, testCase, "source.css"), "utf-8"));
         var expected = normalize(fs.readFileSync(path.join(testDir, testCase, "expected.css"), "utf-8"));
         assert.equal(pipeline.process(input).css, expected);
