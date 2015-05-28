@@ -1,0 +1,12 @@
+@media screen {
+  :local(.exportName) {
+    extends: importName from "path/library.css";
+    extends: importName2 from "path/library.css";
+    other: rule2;
+  }
+}
+
+:local(.exportName) {
+  extends: importName from "path/library.css";
+  other: rule;
+}

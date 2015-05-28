@@ -2,7 +2,7 @@ import postcss from 'postcss';
 
 const declWhitelist = ['extends'],
   declFilter = new RegExp(`^(${declWhitelist.join('|')})$`),
-  matchImports = /^([\w ]+) from (?:"([^"]+)"|'([^']+)')$/;
+  matchImports = /^([\w\s]+?)\s+from\s+(?:"([^"]+)"|'([^']+)')$/;
 
 const processor = (css) => {
   let imports = {};
@@ -14,18 +14,23 @@ const processor = (css) => {
       let [/*match*/, symbols, doubleQuotePath, singleQuotePath] = matches;
       let path = doubleQuotePath || singleQuotePath;
       imports[path] = imports[path] || {};
-      let tmpSymbols = symbols.split(' ')
-        .map(s => imports[path][s] = `__tmp_${s}_${processor.getRandomStr()}`);
+      let tmpSymbols = symbols.split(/\s+/)
+        .map(s => {
+          if(!imports[path][s]) {
+            imports[path][s] = `__tmp_${s}_${processor.getRandomStr()}`;
+          }
+          return imports[path][s];
+        });
       decl.value = tmpSymbols.join(' ');
     }
   });
 
   // If we've found any imports, insert :import rules
-  Object.keys(imports).forEach(path => {
+  Object.keys(imports).reverse().forEach(path => {
     let pathImports = imports[path];
     css.prepend(postcss.rule({
       selector: `:import("${path}")`,
-      before: "\n",
+      after: "\n",
       nodes: Object.keys(pathImports).map(importedSymbol => postcss.decl({
         prop: importedSymbol,
         value: pathImports[importedSymbol],
