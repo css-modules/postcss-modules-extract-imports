@@ -2,7 +2,7 @@ import postcss from 'postcss';
 
 const declWhitelist = ['extends'],
   declFilter = new RegExp(`^(${declWhitelist.join('|')})$`),
-  matchImports = /^([\w ]+) from (?:"([^"]+)"|'([^']+)')$/;
+  matchImports = /^([\w\s]+?)\s+from\s+(?:"([^"]+)"|'([^']+)')$/;
 
 const processor = (css) => {
   let imports = {};
@@ -14,7 +14,7 @@ const processor = (css) => {
       let [/*match*/, symbols, doubleQuotePath, singleQuotePath] = matches;
       let path = doubleQuotePath || singleQuotePath;
       imports[path] = imports[path] || {};
-      let tmpSymbols = symbols.split(' ')
+      let tmpSymbols = symbols.split(/\s+/)
         .map(s => {
           if(!imports[path][s]) {
             imports[path][s] = `__tmp_${s}_${processor.getRandomStr()}`;
