@@ -1,16 +1,16 @@
 :import("path/library.css") {
-  importName: __tmp_importName_rand0;
-  secondImport: __tmp_secondImport_rand1;
-  thirdImport: __tmp_thirdImport_rand2;
+  importName: __imported_importName_0;
+  secondImport: __imported_secondImport_1;
+  thirdImport: __imported_thirdImport_2;
 }
 :import("path/other-lib.css") {
-  otherLibImport: __tmp_otherLibImport_rand3;
+  otherLibImport: __imported_otherLibImport_3;
 }
 :local(.exportName) {
-  extends: __tmp_importName_rand0 __tmp_secondImport_rand1;
+  extends: __imported_importName_0 __imported_secondImport_1;
   other: rule;
 }
 :local(.otherExport) {
-  extends: __tmp_thirdImport_rand2;
-  extends: __tmp_otherLibImport_rand3;
+  extends: __imported_thirdImport_2;
+  extends: __imported_otherLibImport_3;
 }
