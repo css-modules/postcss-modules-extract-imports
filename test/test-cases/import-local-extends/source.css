@@ -1,0 +1,4 @@
+:local(.exportName) {
+  extends: localName;
+  other: rule;
+}
