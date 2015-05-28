@@ -15,7 +15,12 @@ const processor = (css) => {
       let path = doubleQuotePath || singleQuotePath;
       imports[path] = imports[path] || {};
       let tmpSymbols = symbols.split(' ')
-        .map(s => imports[path][s] = `__tmp_${s}_${processor.getRandomStr()}`);
+        .map(s => {
+          if(!imports[path][s]) {
+            imports[path][s] = `__tmp_${s}_${processor.getRandomStr()}`;
+          }
+          return imports[path][s];
+        });
       decl.value = tmpSymbols.join(' ');
     }
   });
