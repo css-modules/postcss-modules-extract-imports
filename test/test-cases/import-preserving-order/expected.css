@@ -1,0 +1,11 @@
+:import("./b.css") {
+  b: __imported_b_0;
+}
+:import("./c.css") {
+  c: __imported_c_1;
+}
+.a {
+  extends: __imported_b_0;
+  extends: __imported_c_1;
+  color: #aaa;
+}

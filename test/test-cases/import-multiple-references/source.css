@@ -6,4 +6,5 @@
 :local(.exportName2) {
   extends: secondImport from 'path/library.css';
   extends: secondImport from 'path/library.css';
+  extends: thirdDep from 'path/dep3.css';
 }

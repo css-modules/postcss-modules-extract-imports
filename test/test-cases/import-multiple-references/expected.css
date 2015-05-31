@@ -6,6 +6,9 @@
 :import("path/library2.css") {
   importName: __imported_importName_2;
 }
+:import("path/dep3.css") {
+  thirdDep: __imported_thirdDep_4;
+}
 :local(.exportName) {
   extends: __imported_importName_0 __imported_secondImport_1;
   extends: __imported_importName_2;
@@ -14,4 +17,5 @@
 :local(.exportName2) {
   extends: __imported_secondImport_1;
   extends: __imported_secondImport_1;
+  extends: __imported_thirdDep_4;
 }
