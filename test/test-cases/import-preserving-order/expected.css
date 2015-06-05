@@ -1,8 +1,8 @@
 :import("./b.css") {
-  b: __imported_b_0;
+  __imported_b_0: b;
 }
 :import("./c.css") {
-  c: __imported_c_1;
+  __imported_c_1: c;
 }
 .a {
   extends: __imported_b_0;
