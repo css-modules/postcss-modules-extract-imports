@@ -35,8 +35,8 @@ const processor = postcss.plugin('modules-extract-imports', function(options) {
         selector: `:import("${path}")`,
         after: "\n",
         nodes: Object.keys(pathImports).map(importedSymbol => postcss.decl({
-          prop: importedSymbol,
-          value: pathImports[importedSymbol],
+          value: importedSymbol,
+          prop: pathImports[importedSymbol],
           before: "\n  "
         }))
       }));
