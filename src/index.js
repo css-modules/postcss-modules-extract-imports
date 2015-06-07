@@ -1,6 +1,6 @@
 import postcss from 'postcss';
 
-const declWhitelist = ['extends'],
+const declWhitelist = ['composes'],
   declFilter = new RegExp(`^(${declWhitelist.join('|')})$`),
   matchImports = /^([\w\s]+?)\s+from\s+(?:"([^"]+)"|'([^']+)')$/;
 

@@ -2,4 +2,4 @@
   i__imported_importName_0: importName;
   i__imported_secondImport_1: secondImport;
 }
-:local(.exportName) { extends: i__imported_importName_0 i__imported_secondImport_1; other: rule; }
+:local(.exportName) { composes: i__imported_importName_0 i__imported_secondImport_1; other: rule; }

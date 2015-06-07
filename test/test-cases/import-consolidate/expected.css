@@ -7,10 +7,10 @@
   i__imported_otherLibImport_3: otherLibImport;
 }
 :local(.exportName) {
-  extends: i__imported_importName_0 i__imported_secondImport_1;
+  composes: i__imported_importName_0 i__imported_secondImport_1;
   other: rule;
 }
 :local(.otherExport) {
-  extends: i__imported_thirdImport_2;
-  extends: i__imported_otherLibImport_3;
+  composes: i__imported_thirdImport_2;
+  composes: i__imported_otherLibImport_3;
 }

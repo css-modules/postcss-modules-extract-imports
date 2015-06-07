@@ -10,12 +10,12 @@
   i__imported_thirdDep_4: thirdDep;
 }
 :local(.exportName) {
-  extends: i__imported_importName_0 i__imported_secondImport_1;
-  extends: i__imported_importName_2;
-  extends: i__imported_importName2_3;
+  composes: i__imported_importName_0 i__imported_secondImport_1;
+  composes: i__imported_importName_2;
+  composes: i__imported_importName2_3;
 }
 :local(.exportName2) {
-  extends: i__imported_secondImport_1;
-  extends: i__imported_secondImport_1;
-  extends: i__imported_thirdDep_4;
+  composes: i__imported_secondImport_1;
+  composes: i__imported_secondImport_1;
+  composes: i__imported_thirdDep_4;
 }

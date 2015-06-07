@@ -1,1 +1,1 @@
-:local(.exportName) { extends: importName secondImport from 'path/library.css'; other: rule; }
+:local(.exportName) { composes: importName secondImport from 'path/library.css'; other: rule; }

@@ -5,7 +5,7 @@
   i__imported_c_1: c;
 }
 .a {
-  extends: i__imported_b_0;
-  extends: i__imported_c_1;
+  composes: i__imported_b_0;
+  composes: i__imported_c_1;
   color: #aaa;
 }

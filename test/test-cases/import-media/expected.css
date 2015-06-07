@@ -5,13 +5,13 @@
 
 @media screen {
   :local(.exportName) {
-    extends: i__imported_importName_0;
-    extends: i__imported_importName2_1;
+    composes: i__imported_importName_0;
+    composes: i__imported_importName2_1;
     other: rule2;
   }
 }
 
 :local(.exportName) {
-  extends: i__imported_importName_0;
+  composes: i__imported_importName_0;
   other: rule;
 }
