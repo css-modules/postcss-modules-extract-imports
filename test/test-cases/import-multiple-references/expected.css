@@ -1,21 +1,21 @@
 :import("path/library.css") {
-  __imported_importName_0: importName;
-  __imported_secondImport_1: secondImport;
-  __imported_importName2_3: importName2;
+  i__imported_importName_0: importName;
+  i__imported_secondImport_1: secondImport;
+  i__imported_importName2_3: importName2;
 }
 :import("path/library2.css") {
-  __imported_importName_2: importName;
+  i__imported_importName_2: importName;
 }
 :import("path/dep3.css") {
-  __imported_thirdDep_4: thirdDep;
+  i__imported_thirdDep_4: thirdDep;
 }
 :local(.exportName) {
-  extends: __imported_importName_0 __imported_secondImport_1;
-  extends: __imported_importName_2;
-  extends: __imported_importName2_3;
+  extends: i__imported_importName_0 i__imported_secondImport_1;
+  extends: i__imported_importName_2;
+  extends: i__imported_importName2_3;
 }
 :local(.exportName2) {
-  extends: __imported_secondImport_1;
-  extends: __imported_secondImport_1;
-  extends: __imported_thirdDep_4;
+  extends: i__imported_secondImport_1;
+  extends: i__imported_secondImport_1;
+  extends: i__imported_thirdDep_4;
 }
