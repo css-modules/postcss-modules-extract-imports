@@ -11,7 +11,7 @@ var processor = require("../");
 var pipeline = postcss([processor]);
 
 function normalize(str) {
-  return str.replace(/\r\n?/g, "\n");
+  return str.replace(/\r\n?/g, "\n").replace(/\n$/,'');
 }
 
 describe("test-cases", function() {

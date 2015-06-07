@@ -1,9 +1,9 @@
 
 :local(.exportName) {
-  extends: importName secondImport from 'path/library.css';
+  composes: importName secondImport from 'path/library.css';
   other: rule;
 }
 :local(.otherExport) {
-  extends: thirdImport from 'path/library.css';
-  extends: otherLibImport from 'path/other-lib.css';
+  composes: thirdImport from 'path/library.css';
+  composes: otherLibImport from 'path/other-lib.css';
 }

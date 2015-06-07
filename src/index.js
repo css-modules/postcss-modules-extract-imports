@@ -1,6 +1,6 @@
 import postcss from 'postcss';
 
-const declWhitelist = ['extends'],
+const declWhitelist = ['composes'],
   declFilter = new RegExp(`^(${declWhitelist.join('|')})$`),
   matchImports = /^([\w\s]+?)\s+from\s+(?:"([^"]+)"|'([^']+)')$/;
 
@@ -8,7 +8,7 @@ const processor = postcss.plugin('modules-extract-imports', function(options) {
   return (css) => {
     let imports = {};
     let importIndex = 0;
-    let createImportedName = options && options.createImportedName || ((importName/*, path*/) => `__imported_${importName}_${importIndex++}`);
+    let createImportedName = options && options.createImportedName || ((importName/*, path*/) => `i__imported_${importName}_${importIndex++}`);
 
     // Find any declaration that supports imports
     css.eachDecl(declFilter, (decl) => {
@@ -35,8 +35,8 @@ const processor = postcss.plugin('modules-extract-imports', function(options) {
         selector: `:import("${path}")`,
         after: "\n",
         nodes: Object.keys(pathImports).map(importedSymbol => postcss.decl({
-          prop: importedSymbol,
-          value: pathImports[importedSymbol],
+          value: importedSymbol,
+          prop: pathImports[importedSymbol],
           before: "\n  "
         }))
       }));

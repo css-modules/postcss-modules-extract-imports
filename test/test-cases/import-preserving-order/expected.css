@@ -1,11 +1,11 @@
 :import("./b.css") {
-  b: __imported_b_0;
+  i__imported_b_0: b;
 }
 :import("./c.css") {
-  c: __imported_c_1;
+  i__imported_c_1: c;
 }
 .a {
-  extends: __imported_b_0;
-  extends: __imported_c_1;
+  composes: i__imported_b_0;
+  composes: i__imported_c_1;
   color: #aaa;
 }

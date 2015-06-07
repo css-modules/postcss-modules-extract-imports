@@ -1,7 +1,7 @@
 :import("path/library.css") {
-  importName: __imported_importName_0;
+  i__imported_importName_0: importName;
 }
 :local(.exportName) {
-  extends: __imported_importName_0;
+  composes: i__imported_importName_0;
   other: rule;
 }
