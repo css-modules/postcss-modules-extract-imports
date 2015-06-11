@@ -1,5 +1,7 @@
 # CSS Modules: Extract Imports
 
+[![Build Status](https://travis-ci.org/css-modules/postcss-modules-extract-imports.svg?branch=master)](https://travis-ci.org/css-modules/postcss-modules-extract-imports)
+
 Transforms:
 
 ```css
