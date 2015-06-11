@@ -1,0 +1,4 @@
+:local(.exportName) {
+  composes: a -b --c _d from "path/library.css";
+  composes: a_ b- c-- d\% from "path/library2.css";
+}

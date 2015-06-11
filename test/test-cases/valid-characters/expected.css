@@ -1,0 +1,16 @@
+:import("path/library.css") {
+  i__imported_a_0: a;
+  i__imported__b_1: -b;
+  i__imported___c_2: --c;
+  i__imported__d_3: _d;
+}
+:import("path/library2.css") {
+  i__imported_a__4: a_;
+  i__imported_b__5: b-;
+  i__imported_c___6: c--;
+  i__imported_d___7: d\%;
+}
+:local(.exportName) {
+  composes: i__imported_a_0 i__imported__b_1 i__imported___c_2 i__imported__d_3;
+  composes: i__imported_a__4 i__imported_b__5 i__imported_c___6 i__imported_d___7;
+}
