@@ -37,7 +37,8 @@ const processor = postcss.plugin( 'modules-extract-imports', function ( options 
         nodes: Object.keys( pathImports ).map( importedSymbol => postcss.decl( {
           value: importedSymbol,
           prop: pathImports[importedSymbol],
-          before: "\n  "
+          before: "\n  ",
+          _autoprefixerDisabled: true
         } ) )
       } ) );
     } );
