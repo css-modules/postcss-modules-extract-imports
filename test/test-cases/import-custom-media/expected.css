@@ -1,3 +1,4 @@
-:imports("./breakpoints.css") {
-  --i__imported_importName_0: --small;
+:import("./breakpoints.css"){
+  --i__imported___small_0: --small
 }
+@custom-media --small (--i__imported___small_0);
