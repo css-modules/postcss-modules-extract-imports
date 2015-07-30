@@ -2,7 +2,7 @@ import postcss from 'postcss';
 
 const declWhitelist = ['composes'],
   declFilter = new RegExp( `^(${declWhitelist.join( '|' )})$` ),
-  matchImports = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)')$/;
+  matchImports = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)'|(global))$/;
 
 const processor = postcss.plugin( 'modules-extract-imports', function ( options ) {
   return ( css ) => {
@@ -14,17 +14,21 @@ const processor = postcss.plugin( 'modules-extract-imports', function ( options 
     css.eachDecl( declFilter, ( decl ) => {
       let matches = decl.value.match( matchImports );
       if ( matches ) {
-        let [/*match*/, symbols, doubleQuotePath, singleQuotePath] = matches;
-        let path = doubleQuotePath || singleQuotePath;
-        imports[path] = imports[path] || {};
-        let tmpSymbols = symbols.split( /\s+/ )
-          .map( s => {
-            if ( !imports[path][s] ) {
-              imports[path][s] = createImportedName( s, path );
-            }
-            return imports[path][s];
-          } );
-        decl.value = tmpSymbols.join( ' ' );
+        let [/*match*/, symbols, doubleQuotePath, singleQuotePath, global] = matches;
+        if (global) {
+          decl.value = symbols;
+        } else {
+          let path = doubleQuotePath || singleQuotePath;
+          imports[path] = imports[path] || {};
+          let tmpSymbols = symbols.split(/\s+/)
+            .map(s => {
+              if (!imports[path][s]) {
+                imports[path][s] = createImportedName(s, path);
+              }
+              return imports[path][s];
+            });
+          decl.value = tmpSymbols.join(' ');
+        }
       }
     } );
 
