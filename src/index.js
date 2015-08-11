@@ -36,7 +36,7 @@ const processor = postcss.plugin( 'modules-extract-imports', function ( options 
         let path = doubleQuotePath || singleQuotePath;
         imports[path] = imports[path] || {};
         imports[path][symbol] = '--' + createImportedName( symbol, path );
-        atRule.params = `${symbol} (${imports[path][symbol]})`;
+        atRule.params = `${symbol} ${imports[path][symbol]}`;
       }
     } );
 
