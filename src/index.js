@@ -11,7 +11,7 @@ const processor = postcss.plugin( 'modules-extract-imports', function ( options 
       createImportedName = options && options.createImportedName || (( importName/*, path*/ ) => `i__imported_${importName.replace( /\W/g, '_' )}_${importIndex++}`);
 
     // Find any declaration that supports imports
-    css.eachDecl( declFilter, ( decl ) => {
+    css.walkDecls( declFilter, ( decl ) => {
       let matches = decl.value.match( matchImports );
       if ( matches ) {
         let [/*match*/, symbols, doubleQuotePath, singleQuotePath] = matches;
@@ -33,11 +33,11 @@ const processor = postcss.plugin( 'modules-extract-imports', function ( options 
       let pathImports = imports[path];
       css.prepend( postcss.rule( {
         selector: `:import("${path}")`,
-        after: "\n",
+        raws: { after: "\n" },
         nodes: Object.keys( pathImports ).map( importedSymbol => postcss.decl( {
           value: importedSymbol,
           prop: pathImports[importedSymbol],
-          before: "\n  ",
+          raws: { before: "\n  " },
           _autoprefixerDisabled: true
         } ) )
       } ) );
