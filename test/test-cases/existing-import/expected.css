@@ -1,0 +1,8 @@
+:import("path/library.css") {
+  something: else;
+  i__imported_importName_0: importName;
+}
+
+:local(.exportName) {
+  composes: i__imported_importName_0;
+}
