@@ -1,0 +1,7 @@
+:import("path/library.css") {
+  something: else;
+}
+
+:local(.exportName) {
+  composes: importName from 'path/library.css';
+}

@@ -2,7 +2,8 @@ import postcss from 'postcss';
 
 const declWhitelist = ['composes'],
   declFilter = new RegExp( `^(${declWhitelist.join( '|' )})$` ),
-  matchImports = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)')$/;
+  matchImports = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)')$/,
+  icssImport = /^:import\((?:"([^"]+)"|'([^']+)')\)/;
 
 const processor = postcss.plugin( 'modules-extract-imports', function ( options ) {
   return ( css ) => {
@@ -28,19 +29,34 @@ const processor = postcss.plugin( 'modules-extract-imports', function ( options 
       }
     } );
 
-    // If we've found any imports, insert :import rules
+    // If we've found any imports, insert or append :import rules
+    let existingImports = {};
+    css.eachRule(rule => {
+      let matches = icssImport.exec(rule.selector);
+      if (matches) {
+        let [/*match*/, doubleQuotePath, singleQuotePath] = matches;
+        existingImports[doubleQuotePath || singleQuotePath] = rule;
+      }
+    });
+
     Object.keys( imports ).reverse().forEach( path => {
-      let pathImports = imports[path];
-      css.prepend( postcss.rule( {
-        selector: `:import("${path}")`,
-        raws: { after: "\n" },
-        nodes: Object.keys( pathImports ).map( importedSymbol => postcss.decl( {
+
+      let rule = existingImports[path];
+      if (!rule) {
+        rule = postcss.rule( {
+          selector: `:import("${path}")`,
+          after: "\n"
+        } );
+        css.prepend( rule );
+      }
+      Object.keys( imports[path] ).forEach( importedSymbol => {
+        rule.push(postcss.decl( {
           value: importedSymbol,
-          prop: pathImports[importedSymbol],
-          raws: { before: "\n  " },
+          prop: imports[path][importedSymbol],
+          before: "\n  ",
           _autoprefixerDisabled: true
-        } ) )
-      } ) );
+        } ) );
+      } );
     } );
   };
 } );
