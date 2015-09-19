@@ -19,8 +19,5 @@
 		"templateStrings": true,
 		"unicodeCodePointEscapes": true,
 		"jsx": true
-	},
-	"rules": {
-		"quotes": "single"
 	}
 }
