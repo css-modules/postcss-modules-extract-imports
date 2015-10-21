@@ -1,0 +1,1 @@
+:local(.exportName) { composes: global(importName) global(secondImport); other: rule; }

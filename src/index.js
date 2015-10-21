@@ -2,7 +2,7 @@ import postcss from 'postcss';
 
 const declWhitelist = ['composes'],
   declFilter = new RegExp( `^(${declWhitelist.join( '|' )})$` ),
-  matchImports = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)')$/,
+  matchImports = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)'|(global))$/,
   icssImport = /^:import\((?:"([^"]+)"|'([^']+)')\)/;
 
 const processor = postcss.plugin( 'modules-extract-imports', function ( options ) {
@@ -14,17 +14,23 @@ const processor = postcss.plugin( 'modules-extract-imports', function ( options 
     // Find any declaration that supports imports
     css.walkDecls( declFilter, ( decl ) => {
       let matches = decl.value.match( matchImports );
+      let tmpSymbols;
       if ( matches ) {
-        let [/*match*/, symbols, doubleQuotePath, singleQuotePath] = matches;
-        let path = doubleQuotePath || singleQuotePath;
-        imports[path] = imports[path] || {};
-        let tmpSymbols = symbols.split( /\s+/ )
-          .map( s => {
-            if ( !imports[path][s] ) {
-              imports[path][s] = createImportedName( s, path );
-            }
-            return imports[path][s];
-          } );
+        let [/*match*/, symbols, doubleQuotePath, singleQuotePath, global] = matches;
+        if (global) {
+          // Composing globals simply means changing these classes to wrap them in global(name)
+          tmpSymbols = symbols.split(/\s+/).map(s => `global(${s})`)
+        } else {
+          let path = doubleQuotePath || singleQuotePath;
+          imports[path] = imports[path] || {};
+          tmpSymbols = symbols.split(/\s+/)
+            .map(s => {
+              if (!imports[path][s]) {
+                imports[path][s] = createImportedName(s, path);
+              }
+              return imports[path][s];
+            });
+        }
         decl.value = tmpSymbols.join( ' ' );
       }
     } );
