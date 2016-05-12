@@ -56,11 +56,10 @@ const processor = postcss.plugin( 'modules-extract-imports', function ( options 
         css.prepend( rule );
       }
       Object.keys( imports[path] ).forEach( importedSymbol => {
-        rule.push(postcss.decl( {
+        rule.append(postcss.decl( {
           value: importedSymbol,
           prop: imports[path][importedSymbol],
-          raws: { before: "\n  " },
-          _autoprefixerDisabled: true
+          raws: { before: "\n  " }
         } ) );
       } );
     } );
