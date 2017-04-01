@@ -4,7 +4,7 @@ const assert = require('assert');
 const postcss = require('postcss');
 const processor = require('../');
 
-describe('failOnWrongOrder', () => {
+describe('check-import-order', () => {
   let pipeline;
 
   beforeEach(() => {

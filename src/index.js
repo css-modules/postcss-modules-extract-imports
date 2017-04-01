@@ -115,6 +115,7 @@ const processor = postcss.plugin('modules-extract-imports', function (options = 
           css.prepend(rule);
       }
 
+      if (rule) lastImportRule = rule;
       if (!importedSymbols) return;
 
       Object.keys(importedSymbols).forEach(importedSymbol => {
@@ -124,8 +125,6 @@ const processor = postcss.plugin('modules-extract-imports', function (options = 
           raws: {before: '\n  '},
         }));
       });
-
-      lastImportRule = rule;
     });
   };
 });

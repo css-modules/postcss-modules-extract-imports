@@ -4,6 +4,7 @@
 }
 
 .b {
+  /* `b` should be after `c` */
   composes: b from "./b.css";
   composes: c from "./c.css";
   color: #aaa;
