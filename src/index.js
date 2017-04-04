@@ -6,6 +6,8 @@ const declFilter = new RegExp( `^(${declWhitelist.join( '|' )})$` );
 const matchImports = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)'|(global))$/;
 const icssImport = /^:import\((?:"([^"]+)"|'([^']+)')\)/;
 
+const VISITED_MARKER = 1;
+
 function createParentName(rule, root) {
   return `__${root.index(rule.parent)}_${rule.selector}`;
 }
@@ -14,11 +16,31 @@ function serializeImports(imports) {
   return imports.map(importPath => '`' + importPath + '`').join(', ');
 }
 
+function updateGraph(importId, parentId, graph, visited) {
+  const siblingsId = parentId + '_' + 'siblings';
+  const visitedId = parentId + '_' + importId;
+
+  if (visited[visitedId] !== VISITED_MARKER) {
+    if (!Array.isArray(visited[siblingsId])) visited[siblingsId] = [];
+
+    const siblings = visited[siblingsId];
+
+    if (Array.isArray(graph[importId]))
+      graph[importId] = graph[importId].concat(siblings);
+    else
+      graph[importId] = siblings.slice();
+
+    visited[visitedId] = VISITED_MARKER;
+    siblings.push(importId);
+  }
+}
+
 const processor = postcss.plugin('modules-extract-imports', function (options = {}) {
   const failOnWrongOrder = options.failOnWrongOrder;
 
   return css => {
-    const graph = {root: []};
+    const graph = {};
+    const visited = {};
 
     const existingImports = {};
     const importDecls = {};
@@ -38,10 +60,7 @@ const processor = postcss.plugin('modules-extract-imports', function (options = 
         const [/*match*/, doubleQuotePath, singleQuotePath] = matches;
         const importPath = doubleQuotePath || singleQuotePath;
 
-        if (!graph[importPath]) {
-          graph[importPath] = [];
-          graph.root.push(importPath);
-        };
+        updateGraph(importPath, 'root', graph, visited);
 
         existingImports[importPath] = rule;
       }
@@ -62,14 +81,10 @@ const processor = postcss.plugin('modules-extract-imports', function (options = 
           const importPath = doubleQuotePath || singleQuotePath;
           const parentRule = createParentName(decl.parent, css);
 
+          updateGraph(importPath, parentRule, graph, visited);
+
           importDecls[importPath] = decl;
           imports[importPath] = imports[importPath] || {};
-
-
-          graph[parentRule] = graph[parentRule] || [];
-          graph[importPath] = (graph[importPath] || []).concat(graph[parentRule]);
-
-          graph[parentRule].push(importPath);
 
           tmpSymbols = symbols.split(/\s+/).map(s => {
             if (!imports[importPath][s]) {
@@ -115,7 +130,8 @@ const processor = postcss.plugin('modules-extract-imports', function (options = 
           css.prepend(rule);
       }
 
-      if (rule) lastImportRule = rule;
+      lastImportRule = rule;
+
       if (!importedSymbols) return;
 
       Object.keys(importedSymbols).forEach(importedSymbol => {
