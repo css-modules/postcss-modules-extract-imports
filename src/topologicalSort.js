@@ -5,7 +5,7 @@ function createError(node, graph) {
   const er = new Error('Nondeterministic import\'s order');
 
   const related = graph[node];
-  const relatedNode = related.find(relatedNode => graph[relatedNode].includes(node));
+  const relatedNode = related.find(relatedNode => graph[relatedNode].indexOf(node) > -1);
 
   er.nodes = [node, relatedNode];
 
