@@ -16,7 +16,28 @@ function serializeImports(imports) {
   return imports.map(importPath => '`' + importPath + '`').join(', ');
 }
 
-function updateGraph(importId, parentId, graph, visited) {
+/**
+ * :import('G') {}
+ *
+ * Rule
+ *   composes: ... from 'A'
+ *   composes: ... from 'B'
+
+ * Rule
+ *   composes: ... from 'A'
+ *   composes: ... from 'A'
+ *   composes: ... from 'C'
+ *
+ * Results in:
+ *
+ * graph: {
+ *   G: [],
+ *   A: [],
+ *   B: ['A'],
+ *   C: ['A'],
+ * }
+ */
+function addImportToGraph(importId, parentId, graph, visited) {
   const siblingsId = parentId + '_' + 'siblings';
   const visitedId = parentId + '_' + importId;
 
@@ -60,7 +81,7 @@ const processor = postcss.plugin('modules-extract-imports', function (options = 
         const [/*match*/, doubleQuotePath, singleQuotePath] = matches;
         const importPath = doubleQuotePath || singleQuotePath;
 
-        updateGraph(importPath, 'root', graph, visited);
+        addImportToGraph(importPath, 'root', graph, visited);
 
         existingImports[importPath] = rule;
       }
@@ -81,7 +102,7 @@ const processor = postcss.plugin('modules-extract-imports', function (options = 
           const importPath = doubleQuotePath || singleQuotePath;
           const parentRule = createParentName(decl.parent, css);
 
-          updateGraph(importPath, parentRule, graph, visited);
+          addImportToGraph(importPath, parentRule, graph, visited);
 
           importDecls[importPath] = decl;
           imports[importPath] = imports[importPath] || {};
