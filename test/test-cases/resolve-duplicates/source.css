@@ -1,0 +1,11 @@
+:import("./cc.css") {
+  smthing: somevalue;
+}
+
+.a {
+  composes: a from './aa.css';
+  composes: b from './bb.css';
+  composes: c from './cc.css';
+  composes: a from './aa.css';
+  composes: c from './cc.css';
+}

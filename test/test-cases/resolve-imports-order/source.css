@@ -1,0 +1,27 @@
+:import("custom-path.css") {
+  /* empty to check the order */
+}
+
+:import("./bb.css") {
+  somevalue: localvalue;
+}
+
+.a {
+  composes: aa from './aa.css';
+}
+
+.b {
+  composes: bb from './bb.css';
+  composes: bb from './aa.css';
+}
+
+.c {
+  composes: cc from './cc.css';
+  composes: cc from './aa.css';
+}
+
+.d {
+  composes: dd from './cc.css';
+  composes: dd from './bb.css';
+  composes: dd from './dd.css';
+}

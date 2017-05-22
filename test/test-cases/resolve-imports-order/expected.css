@@ -1,0 +1,44 @@
+:import("custom-path.css") {
+  /* empty to check the order */
+}
+
+:import("./cc.css") {
+  i__imported_cc_3: cc;
+  i__imported_dd_5: dd;
+}
+
+:import("./bb.css") {
+  somevalue: localvalue;
+  i__imported_bb_1: bb;
+  i__imported_dd_6: dd;
+}
+
+:import("./aa.css") {
+  i__imported_aa_0: aa;
+  i__imported_bb_2: bb;
+  i__imported_cc_4: cc;
+}
+
+:import("./dd.css") {
+  i__imported_dd_7: dd;
+}
+
+.a {
+  composes: i__imported_aa_0;
+}
+
+.b {
+  composes: i__imported_bb_1;
+  composes: i__imported_bb_2;
+}
+
+.c {
+  composes: i__imported_cc_3;
+  composes: i__imported_cc_4;
+}
+
+.d {
+  composes: i__imported_dd_5;
+  composes: i__imported_dd_6;
+  composes: i__imported_dd_7;
+}

@@ -1,0 +1,19 @@
+:import("./b.css") {
+  i__imported_b_1: b;
+}
+
+:import("./c.css") {
+  i__imported_c_0: c;
+}
+
+.a {
+  composes: i__imported_c_0;
+  color: #bebebe;
+}
+
+.b {
+  /* `b` should be after `c` */
+  composes: i__imported_b_1;
+  composes: i__imported_c_0;
+  color: #aaa;
+}

@@ -1,0 +1,20 @@
+:import("./aa.css") {
+  i__imported_a_0: a;
+}
+
+:import("./bb.css") {
+  i__imported_b_1: b;
+}
+
+:import("./cc.css") {
+  smthing: somevalue;
+  i__imported_c_2: c;
+}
+
+.a {
+  composes: i__imported_a_0;
+  composes: i__imported_b_1;
+  composes: i__imported_c_2;
+  composes: i__imported_a_0;
+  composes: i__imported_c_2;
+}
