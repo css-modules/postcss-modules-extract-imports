@@ -2,15 +2,14 @@
   "name": "postcss-modules-extract-imports",
   "version": "2.0.0",
   "description": "A CSS Modules transform to extract local aliases for inline imports",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "files": [
-    "lib"
+    "src"
   ],
   "scripts": {
-    "build": "babel --out-dir lib src",
     "test": "jest --coverage",
     "precommit": "lint-staged",
-    "prepublish": "yarn run test && yarn run build"
+    "prepublish": "yarn run test"
   },
   "lint-staged": {
     "*.js": [
@@ -37,10 +36,6 @@
     "postcss": "^7.0.5"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-eslint": "^7.2.2",
-    "babel-jest": "^20.0.3",
-    "babel-preset-env": "^1.5.1",
     "codecov.io": "^0.1.2",
     "coveralls": "^2.11.2",
     "husky": "^0.13.3",
