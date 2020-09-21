@@ -16,7 +16,7 @@
     "pretest": "yarn lint",
     "test": "jest --coverage",
     "autotest": "jest --coverage --watch",
-    "cover": "istanbul cover test/index.js",
+    "cover": "jest --coverage",
     "ci": "yarn pretest && yarn cover",
     "prepublishOnly": "yarn test"
   },
