@@ -137,6 +137,7 @@ module.exports = (options = {}) => {
 
       if (importsOrder instanceof Error) {
         const importPath = importsOrder.nodes.find((importPath) =>
+          // eslint-disable-next-line no-prototype-builtins
           importDecls.hasOwnProperty(importPath)
         );
         const decl = importDecls[importPath];

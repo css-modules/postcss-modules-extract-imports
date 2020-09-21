@@ -15,7 +15,7 @@
     "lint": "yarn eslint && yarn prettier",
     "pretest": "yarn lint",
     "test": "jest --coverage",
-    "autotest": "chokidar src/index.js test/test.js -c 'yarn test'",
+    "autotest": "jest --coverage --watch",
     "cover": "istanbul cover test/index.js",
     "ci": "yarn pretest && yarn cover",
     "prepublishOnly": "yarn test"
