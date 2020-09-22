@@ -1,4 +1,3 @@
-const postcss = require("postcss");
 const topologicalSort = require("./topologicalSort");
 
 const declWhitelist = ["composes"];
@@ -64,7 +63,7 @@ module.exports = (options = {}) => {
 
   return {
     postcssPlugin: "postcss-modules-extract-imports",
-    RootExit(root) {
+    RootExit(root, postcss) {
       const graph = {};
       const visited = {};
 
