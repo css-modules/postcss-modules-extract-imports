@@ -5,9 +5,4 @@ node_js:
   - "12"
   - "14"
 
-script: yarn ci
-
-after_success:
-  - cat ./coverage/lcov.info | node_modules/.bin/coveralls --verbose
-  - cat ./coverage/coverage.json | node_modules/codecov.io/bin/codecov.io.js
-  - rm -rf ./coverage
+script: yarn test && coveralls < coverage/lcov.info
