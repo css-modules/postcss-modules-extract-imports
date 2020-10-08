@@ -63,7 +63,7 @@ module.exports = (options = {}) => {
 
   return {
     postcssPlugin: "postcss-modules-extract-imports",
-    RootExit(root, postcss) {
+    OnceExit(root, postcss) {
       const graph = {};
       const visited = {};
 
