@@ -33,10 +33,10 @@ function walkGraph(node, graph, state, result, strict) {
   const length = children.length;
 
   for (let i = 0; i < length; ++i) {
-    const er = walkGraph(children[i], graph, state, result, strict);
+    const error = walkGraph(children[i], graph, state, result, strict);
 
-    if (er instanceof Error) {
-      return er;
+    if (error instanceof Error) {
+      return error;
     }
   }
 

@@ -1,19 +1,9 @@
 const topologicalSort = require("./topologicalSort");
 
-const declWhitelist = ["composes"];
-const declFilter = new RegExp(`^(${declWhitelist.join("|")})$`);
 const matchImports = /^(.+?)\s+from\s+(?:"([^"]+)"|'([^']+)'|(global))$/;
 const icssImport = /^:import\((?:"([^"]+)"|'([^']+)')\)/;
 
 const VISITED_MARKER = 1;
-
-function createParentName(rule, root) {
-  return `__${root.index(rule.parent)}_${rule.selector}`;
-}
-
-function serializeImports(imports) {
-  return imports.map((importPath) => "`" + importPath + "`").join(", ");
-}
 
 /**
  * :import('G') {}
@@ -54,53 +44,53 @@ function addImportToGraph(importId, parentId, graph, visited) {
     }
 
     visited[visitedId] = VISITED_MARKER;
+
     siblings.push(importId);
   }
 }
 
 module.exports = (options = {}) => {
+  let importIndex = 0;
+  const createImportedName =
+    typeof options.createImportedName !== "function"
+      ? (importName /*, path*/) =>
+          `i__imported_${importName.replace(/\W/g, "_")}_${importIndex++}`
+      : options.createImportedName;
   const failOnWrongOrder = options.failOnWrongOrder;
 
   return {
     postcssPlugin: "postcss-modules-extract-imports",
-    prepare(result) {
+    prepare() {
       const graph = {};
       const visited = {};
       const existingImports = {};
       const importDecls = {};
       const imports = {};
 
-      let importIndex = 0;
-
-      const createImportedName =
-        typeof options.createImportedName !== "function"
-          ? (importName /*, path*/) =>
-              `i__imported_${importName.replace(/\W/g, "_")}_${importIndex++}`
-          : options.createImportedName;
-
       return {
-        // Check the existing imports order and save refs
-        Rule(rule) {
-          const matches = icssImport.exec(rule.selector);
+        OnceExit(root, postcss) {
+          // Check the existing imports order and save refs
+          root.walkRules((rule) => {
+            const matches = icssImport.exec(rule.selector);
 
-          if (matches) {
-            const [, /*match*/ doubleQuotePath, singleQuotePath] = matches;
-            const importPath = doubleQuotePath || singleQuotePath;
+            if (matches) {
+              const [, /*match*/ doubleQuotePath, singleQuotePath] = matches;
+              const importPath = doubleQuotePath || singleQuotePath;
 
-            addImportToGraph(importPath, "root", graph, visited);
+              addImportToGraph(importPath, "root", graph, visited);
 
-            existingImports[importPath] = rule;
-          }
-        },
-        Declaration(decl) {
-          if (!declFilter.test(decl.prop)) {
-            return;
-          }
+              existingImports[importPath] = rule;
+            }
+          });
 
-          let matches = decl.value.match(matchImports);
-          let tmpSymbols;
+          root.walkDecls(/^composes$/, (declaration) => {
+            const matches = declaration.value.match(matchImports);
 
-          if (matches) {
+            if (!matches) {
+              return;
+            }
+
+            let tmpSymbols;
             let [
               ,
               /*match*/ symbols,
@@ -114,11 +104,22 @@ module.exports = (options = {}) => {
               tmpSymbols = symbols.split(/\s+/).map((s) => `global(${s})`);
             } else {
               const importPath = doubleQuotePath || singleQuotePath;
-              const parentRule = createParentName(decl.parent, result.root);
+
+              let parent = declaration.parent;
+              let parentIndexes = "";
+
+              while (parent.type !== "root") {
+                parentIndexes =
+                  parent.parent.index(parent) + "_" + parentIndexes;
+                parent = parent.parent;
+              }
+
+              const { selector } = declaration.parent;
+              const parentRule = `_${parentIndexes}${selector}`;
 
               addImportToGraph(importPath, parentRule, graph, visited);
 
-              importDecls[importPath] = decl;
+              importDecls[importPath] = declaration;
               imports[importPath] = imports[importPath] || {};
 
               tmpSymbols = symbols.split(/\s+/).map((s) => {
@@ -130,10 +131,9 @@ module.exports = (options = {}) => {
               });
             }
 
-            decl.value = tmpSymbols.join(" ");
-          }
-        },
-        OnceExit(root, postcss) {
+            declaration.value = tmpSymbols.join(" ");
+          });
+
           const importsOrder = topologicalSort(graph, failOnWrongOrder);
 
           if (importsOrder instanceof Error) {
@@ -143,15 +143,17 @@ module.exports = (options = {}) => {
             );
             const decl = importDecls[importPath];
 
-            const errMsg =
+            throw decl.error(
               "Failed to resolve order of composed modules " +
-              serializeImports(importsOrder.nodes) +
-              ".";
-
-            throw decl.error(errMsg, {
-              plugin: "postcss-modules-extract-imports",
-              word: "composes",
-            });
+                importsOrder.nodes
+                  .map((importPath) => "`" + importPath + "`")
+                  .join(", ") +
+                ".",
+              {
+                plugin: "postcss-modules-extract-imports",
+                word: "composes",
+              }
+            );
           }
 
           let lastImportRule;
