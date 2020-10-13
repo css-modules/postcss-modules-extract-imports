@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [3.0.0-rc.3](https://github.com/postcss-modules-local-by-default/compare/v3.0.0-rc.2...v3.0.0-rc.3) - 2020-11-08
+## [3.0.0](https://github.com/postcss-modules-local-by-default/compare/v3.0.0-rc.3...v3.0.0) - 2020-10-13
+
+### Fixes
+
+- compatibility with plugins other plugins
+
+## [3.0.0-rc.3](https://github.com/postcss-modules-local-by-default/compare/v3.0.0-rc.2...v3.0.0-rc.3) - 2020-10-11
 
 ### Fixes
 
