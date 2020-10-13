@@ -68,7 +68,7 @@ module.exports = (options = {}) => {
       const imports = {};
 
       return {
-        OnceExit(root, postcss) {
+        Once(root, postcss) {
           // Check the existing imports order and save refs
           root.walkRules((rule) => {
             const matches = icssImport.exec(rule.selector);
