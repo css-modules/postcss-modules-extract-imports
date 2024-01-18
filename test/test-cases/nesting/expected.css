@@ -1,0 +1,19 @@
+:import("path/library.css") {
+  i__imported_importName_0: importName;
+}
+
+:local(.foo) {
+  display: grid;
+
+  @media (orientation: landscape) {
+    &:local(.bar) {
+      grid-auto-flow: column;
+
+      @media (min-width: 1024px) {
+        &:local(.baz) {
+          composes: i__imported_importName_0;
+        }
+      }
+    }
+  }
+}

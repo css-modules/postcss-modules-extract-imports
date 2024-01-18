@@ -1,0 +1,15 @@
+:local(.foo) {
+  display: grid;
+
+  @media (orientation: landscape) {
+    &:local(.bar) {
+      grid-auto-flow: column;
+
+      @media (min-width: 1024px) {
+        &:local(.baz) {
+          composes: importName from "path/library.css";
+        }
+      }
+    }
+  }
+}
