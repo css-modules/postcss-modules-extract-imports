@@ -1,0 +1,37 @@
+:import("path/library.css") {
+  i__imported_importName_0: importName;
+  i__imported_firstImport_1: firstImport;
+  i__imported_secondImport_2: secondImport;
+  i__imported_importName2_6: importName2;
+  i__imported_importName3_7: importName3;
+  i__imported_importName4_8: importName4;
+}
+
+:import("./aa.css") {
+  i__imported_a_3: a;
+}
+
+:import("./bb.css") {
+  i__imported_b_4: b;
+}
+
+:import("./cc.css") {
+  i__imported_c_5: c;
+}
+
+:local(.exportName) {
+  composes: i__imported_importName_0, global(beforeName), global(importName) global(secondImport), i__imported_firstImport_1 i__imported_secondImport_2;
+  other: rule;
+}
+
+:local(.duplicate) {
+  composes: i__imported_a_3, i__imported_b_4, i__imported_c_5, i__imported_a_3, i__imported_c_5;
+}
+
+:local(.spaces) {
+  composes: i__imported_importName_0 i__imported_importName2_6, i__imported_importName3_7 i__imported_importName4_8;
+}
+
+:local(.unknown) {
+  composes: foo bar, baz;
+}

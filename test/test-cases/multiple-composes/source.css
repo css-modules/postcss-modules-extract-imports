@@ -1,0 +1,16 @@
+:local(.exportName) {
+  composes: importName from "path/library.css", beforeName from global, importName secondImport from global, firstImport secondImport from "path/library.css";
+  other: rule;
+}
+
+:local(.duplicate) {
+  composes: a from "./aa.css", b from "./bb.css", c from "./cc.css", a from "./aa.css", c from "./cc.css";
+}
+
+:local(.spaces) {
+  composes: importName importName2 from "path/library.css", importName3 importName4 from "path/library.css";
+}
+
+:local(.unknown) {
+  composes: foo bar, baz;
+}
